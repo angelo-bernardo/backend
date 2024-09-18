@@ -43,7 +43,7 @@ public class DespertadorView {
         limparTela();
         System.out.println(
             String.format(
-                "Agora são: %s%d:%d:%d%s.", 
+                "Agora são: %s%02d:%02d:%02d%s.", 
                 ANSI_BLUE,
                 horaAtual, 
                 minutoAtual, 
@@ -53,17 +53,13 @@ public class DespertadorView {
         );
 
         configurarDespertador();
+        limparTela();
 
         while (sair == false) {
             DespertadorController.getHMS();
-            int minutoFalta = minutoDespertar - minutoAtual - 1;
-            int horaFalta = horaDespertar - horaAtual;
-            horaFalta = (minutoFalta >= 0) ? horaFalta : horaFalta - 1;
-            minutoFalta = (minutoFalta >= 0) ? minutoFalta : 60 + minutoFalta;
-            limparTela();
-            System.out.println(
+            System.out.print(
                 String.format(
-                    "Agora são: %s%02d:%02d:%02d%s. O próximo alarme irá despertar às %s%02d:%02d%s. Adiado %s%02d%s vez(es).Tempo que falta para o alarme: %s%02d:%02d:%02d%s", 
+                    "Agora são: %s%02d:%02d:%02d%s. O próximo alarme irá despertar às %s%02d:%02d%s. Adiado %s%02d%s vez(es).Tempo que falta para o alarme: %s%s%s\r", 
                     ANSI_YELLOW,
                     horaAtual, 
                     minutoAtual, 
@@ -77,9 +73,7 @@ public class DespertadorView {
                     adiamentoAtual,
                     ANSI_RESET,
                     ANSI_YELLOW,
-                    horaFalta,
-                    minutoFalta,
-                    60 - segundoAtual,
+                    DespertadorController.horaFaltante(horaAtual, minutoAtual, segundoAtual, horaDespertar, minutoDespertar),
                     ANSI_RESET
                 )
             );
@@ -174,7 +168,7 @@ public class DespertadorView {
         for (int a = 0; a < adiamentos.length; a++) {
             System.out.println(
                 String.format(
-                    "[%d] >> adiar %d minuto(s)", 
+                    "[%d] >> adiar %02d minuto(s)", 
                     a + 1, 
                     adiamentos[a]
                 )
