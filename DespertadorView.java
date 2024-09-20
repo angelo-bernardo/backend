@@ -62,7 +62,7 @@ public class DespertadorView {
                     "O próximo alarme irá despertar às: %s%02d:%02d:00%s\n" + //
                     "Agora são........................: %s%02d:%02d:%02d%s\n" + // 
                     "Tempo que falta para o alarme....: %s%s%s\n" + //
-                    "Adiado %s%02d%s vez" + (adiamentoAtual > 1 ? "es" : "") + ".", 
+                    "Adiado %s%d%s vez" + (adiamentoAtual > 1 ? "es" : "") + ".", 
                     ANSI_GREEN,
                     horaDespertar, 
                     minutoDespertar, 
@@ -170,7 +170,7 @@ public class DespertadorView {
         for (int a = 0; a < adiamentos.length; a++) {
             System.out.println(
                 String.format(
-                    "[%d] >> adiar %02d minuto(s)", 
+                    "[%d] >> adiar %d minuto(s)", 
                     a + 1, 
                     adiamentos[a]
                 )
@@ -218,6 +218,6 @@ public class DespertadorView {
 
     public static void exibirAlarmeAdiado(int adiamentoInteger) {
         System.out.println("Ok! Despertador adiado em: " + adiamentoInteger + " minutos.");
-        System.out.println("Você poderá adiar mais " + (qtdAdiamento - adiamentoAtual) + " vezes.");
+        System.out.println("Você poderá adiar mais " + (qtdAdiamento - adiamentoAtual) + " vez" + ((qtdAdiamento - adiamentoAtual) > 1 ? "es" : "") + ".");
     }
 }
