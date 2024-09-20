@@ -57,23 +57,26 @@ public class DespertadorView {
 
         while (sair == false) {
             DespertadorController.getHMS();
-            System.out.print(
+            System.out.println(
                 String.format(
-                    "Agora são: %s%02d:%02d:%02d%s. O próximo alarme irá despertar às %s%02d:%02d%s. Adiado %s%02d%s vez(es).Tempo que falta para o alarme: %s%s%s\r", 
+                    "O próximo alarme irá despertar às: %s%02d:%02d:00%s\n" + //
+                    "Agora são........................: %s%02d:%02d:%02d%s\n" + // 
+                    "Tempo que falta para o alarme....: %s%s%s\n" + //
+                    "Adiado %s%02d%s vez" + (adiamentoAtual > 1 ? "es" : "") + ".", 
+                    ANSI_GREEN,
+                    horaDespertar, 
+                    minutoDespertar, 
+                    ANSI_RESET,
                     ANSI_YELLOW,
                     horaAtual, 
                     minutoAtual, 
                     segundoAtual,
                     ANSI_RESET, 
                     ANSI_RED,
-                    horaDespertar, 
-                    minutoDespertar, 
-                    ANSI_RESET,
-                    ANSI_GREEN,
-                    adiamentoAtual,
-                    ANSI_RESET,
-                    ANSI_YELLOW,
                     DespertadorController.horaFaltante(horaAtual, minutoAtual, segundoAtual, horaDespertar, minutoDespertar),
+                    ANSI_RESET,
+                    ANSI_BLUE,
+                    adiamentoAtual,
                     ANSI_RESET
                 )
             );
@@ -82,7 +85,6 @@ public class DespertadorView {
                 if (minutoAtual >= minutoDespertar) {
                     if (podeAdiar()) {
                         System.out.println("Acorda, seu despertador está chamando.");
-                        System.out.println("Digite um número abaixo das seguintes opções:");
                         String[] opcoes = DespertadorController.verOpcoes();
 
                         for (int c = 0; c < opcoes.length; c++) {
@@ -94,6 +96,7 @@ public class DespertadorView {
                                 )
                             );
                         }
+                        System.out.print("Escolha sua opção: ");
 
                         respostaUsuario = scnInput.nextInt();
                         DespertadorController.acaoDespertador(respostaUsuario);
@@ -132,7 +135,7 @@ public class DespertadorView {
     }
 
     public static void configurarHora() {
-        System.out.println("Digite abaixo a hora que você deseja configurar o despertador e tecle Enter:");
+        System.out.print("Digite a hora que você deseja configurar o despertador e tecle Enter: ");
         horaDespertar = scnInput.nextInt();
         if (horaDespertar < horaAtual) {
             System.err.println("Ops! Digite um número igual ou maior que: " + horaAtual + " e tente novamente.");
@@ -144,7 +147,7 @@ public class DespertadorView {
     }
 
     public static void configurarMinuto() {
-        System.out.println("Digite abaixo o minuto que você deseja configurar o despertador e tecle Enter:");
+        System.out.print("Digite o minuto que você deseja configurar o despertador e tecle Enter: ");
         minutoDespertar = scnInput.nextInt();
         if (horaDespertar == horaAtual) {
             if (minutoDespertar < minutoAtual) {
@@ -164,7 +167,6 @@ public class DespertadorView {
     }
 
     public static boolean mostrarOpcoesAdiamentos() {
-        System.out.println("Digite o número da opção abaixo e tecle Enter:");
         for (int a = 0; a < adiamentos.length; a++) {
             System.out.println(
                 String.format(
@@ -174,6 +176,7 @@ public class DespertadorView {
                 )
             );
         }
+        System.out.print("Escolha sua opção: ");
         int respostaUsuario = scnInput.nextInt();
         if (respostaUsuario <= adiamentos.length) {
             adiar = adiamentos[respostaUsuario - 1];
@@ -185,9 +188,9 @@ public class DespertadorView {
     }
 
     public static boolean novoDespertador() {
-        System.out.println("Deseja configurar um novo despertador? Digite o número da opção abaixo e tecle Enter:");
         System.out.println("[1] >> Sim");
         System.out.println("[2] >> Não");
+        System.out.print("Deseja configurar um novo despertador? Escolha sua opção: ");
         int respostaUsuario = scnInput.nextInt();
         if (respostaUsuario == 1) {
             configurarDespertador();
